@@ -80,8 +80,15 @@ def app(headless=None):
                 annotated = last_results[0].plot() if (should_infer and last_results) else frame
                 cv2.imshow(window_name, annotated)
 
-                if cv2.waitKey(1) == 27 or cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+                key = cv2.waitKey(1)
+                if key == 27:
                     break
+                
+                try:
+                    if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+                        break
+                except cv2.error:
+                    pass
 
     except KeyboardInterrupt:
         print("Program stopped by user.")
