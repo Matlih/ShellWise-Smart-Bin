@@ -12,6 +12,17 @@
 
 ## 🏛️ System Architecture
 This repository contains the localized vision pipeline for the ShellWise Smart Bin. To ensure real-time physical actuation and minimal power draw, the system utilizes the `YOLOv11n` (Nano) architecture. This allows for high-throughput inference directly on constrained edge devices (Raspberry Pi 4) without requiring continuous cloud compute.
+<!-- 
+### 📐 Architecture Diagrams
+Below are the architectural representations of the ShellWise Smart Bin system:
+
+| **MVC Architecture** | **State Diagram** |
+|:---:|:---:|
+| ![MVC Architecture](.guide/diagrams/svg/mvc.svg) | ![State Diagram](.guide/diagrams/svg/state.svg) |
+
+| **Class Diagram** | **Use Case Diagram** |
+|:---:|:---:|
+| ![Class Diagram](.guide/diagrams/svg/class.svg) | ![Use Case Diagram](.guide/diagrams/svg/use_case.svg) | -->
 
 ### Data Engineering & Provenance
 The model was fine-tuned specifically for the detection of Polyethylene Terephthalate (PET) plastics to facilitate automated recycling sorting.

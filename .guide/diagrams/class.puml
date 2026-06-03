@@ -1,0 +1,79 @@
+@startuml
+title ShellWise Smart Bin - Class Diagram
+
+package "Core" {
+    class App {
+        +app(headless: Boolean)
+    }
+
+    class ConfigLoader {
+        +load_config(path: String): Map
+        +config: Map
+    }
+}
+
+package "State Management" {
+    class BinManager {
+        +init(bins: List): Map
+        +check_full(context: Map)
+        +check_lid(context: Map)
+    }
+
+    class BinState <<Data>> {
+        +is_open: Boolean
+        +is_full: Boolean
+        +blocked_since: Timestamp
+        +sensor_paused_until: Timestamp
+        +close_due_at: Timestamp
+    }
+}
+
+package "Vision" {
+    class Camera {
+        +init_camera(config: Map): VideoCapture
+    }
+
+    class VisionProcessor {
+        +get_detected_labels(results: List, names: List, min_conf: Float): Set
+    }
+}
+
+package "Hardware" {
+    class HardwareLifecycle {
+        +connect(): pigpio.pi
+        +setup(pi, bins, closed_angle, delay)
+        +cleanup(pi, bins)
+    }
+
+    class Sensor {
+        +measure_distance_cm(pi, trig, echo, pulse, timeout): Float
+    }
+
+    class Servo {
+        +set_servo_angle(pi, pin, angle, delay)
+        +angle_to_pulse_width(angle): Int
+    }
+
+    class LED {
+        +set_led_output(pi, pin, state)
+    }
+
+    class Buzzer {
+        +set_buzzer_output(pi, pin, state)
+    }
+}
+
+' Relationships
+App --> ConfigLoader : "uses"
+App --> Camera : "controls"
+App --> VisionProcessor : "uses"
+App --> BinManager : "manages"
+App --> HardwareLifecycle : "orchestrates"
+
+BinManager ..> BinState : "manages"
+BinManager --> Sensor : "uses"
+BinManager --> Servo : "controls"
+BinManager --> LED : "toggles"
+BinManager --> Buzzer : "toggles"
+
+@enduml

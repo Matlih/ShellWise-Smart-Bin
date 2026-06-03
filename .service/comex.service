@@ -1,5 +1,5 @@
 [Unit]
-Description=Project IMPACT-COMEX: Edge Vision System
+Description=ShellWise Smart Bin: Edge Vision System
 After=network.target pigpiod.service
 Wants=pigpiod.service
 
@@ -7,9 +7,9 @@ Wants=pigpiod.service
 Type=simple
 User=pi
 Group=pi
-WorkingDirectory=%h/IMPACT-COMEX-bin
+WorkingDirectory=%h/ShellWise-Smart-Bin
 Environment=PYTHONUNBUFFERED=1
-ExecStart=%h/IMPACT-COMEX-bin/.venv/bin/python %h/IMPACT-COMEX-bin/main.py --headless
+ExecStart=%h/ShellWise-Smart-Bin/.venv/bin/python %h/ShellWise-Smart-Bin/main.py --headless
 Restart=always
 RestartSec=3
 

@@ -1,0 +1,52 @@
+@startuml
+title ShellWise Smart Bin - MVC Architecture
+
+package "Model" {
+    class Config {
+        +bins: List
+        +modelPath: String
+        +minConfidence: Float
+    }
+    class BinState {
+        +is_open: Boolean
+        +is_full: Boolean
+        +blocked_since: Timestamp
+    }
+}
+
+package "View" {
+    class OpenCVPreview {
+        +showFrame()
+        +drawLabels()
+    }
+    class HardwareInterface {
+        +LED_Output
+        +Buzzer_Output
+        +Servo_Position
+    }
+}
+
+package "Controller" {
+    class AppLoop {
+        +run()
+    }
+    class VisionProcessor {
+        +predict()
+        +getLabels()
+    }
+    class HardwareController {
+        +checkFull()
+        +checkLid()
+        +setServoAngle()
+    }
+}
+
+AppLoop --> VisionProcessor : "requests inference"
+AppLoop --> HardwareController : "updates state"
+AppLoop --> OpenCVPreview : "updates display"
+
+HardwareController --> BinState : "modifies"
+HardwareController --> HardwareInterface : "controls"
+
+VisionProcessor --> Config : "reads labels/conf"
+@enduml

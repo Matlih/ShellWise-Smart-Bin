@@ -1,0 +1,34 @@
+@startuml
+title Bin State Diagram
+
+[*] --> Idle
+
+state Idle {
+    [*] --> Closed
+    Closed : lid is down
+    Closed : is_full = false
+}
+
+state Open {
+    [*] --> LidOpen
+    LidOpen : lid is up
+    LidOpen : sensor_paused
+}
+
+state Full {
+    [*] --> Alerting
+    Alerting : lid is down
+    Alerting : LED = ON
+    Alerting : Buzzer = ON
+    Alerting : is_full = true
+}
+
+Idle --> Open : Match Detected
+Open --> Idle : No Match Detected (after delay)
+
+Idle --> Full : Sensor Blocked (for X seconds)
+Full --> Idle : Sensor Clear
+
+Open --> Idle : Manual/Force Close (not in current code but implied)
+
+@enduml
